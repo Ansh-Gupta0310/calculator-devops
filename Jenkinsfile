@@ -104,7 +104,7 @@ pipeline {
                         <li><b>URL:</b> <a href="${BUILD_URL}">${BUILD_URL}</a></li>
                     </ul>
                 """,
-                to: 'you@example.com',
+                to: 'ansh.gupta@iiitb.ac.in',
                 mimeType: 'text/html'
             )
         }
@@ -119,7 +119,7 @@ pipeline {
                         <li><b>Console:</b> <a href="${BUILD_URL}console">${BUILD_URL}console</a></li>
                     </ul>
                 """,
-                to: 'you@example.com',
+                to: 'ansh.gupta@iiitb.ac.in',
                 mimeType: 'text/html'
             )
         }
