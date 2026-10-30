@@ -84,15 +84,6 @@ pipeline {
     post{
         success{
             echo "Build #${env.BUILD_NUMBER} succeeded. Image: ${FULL_IMAGE}"
-        }
-        failure{
-            echo "Build #${env.BUILD_NUMBER} FAILED."
-        }
-        always{
-            // remove stale images from the Jenkins agent so disk doesn't fill up
-            sh 'docker image prune -f --filter "until=72h" || true'
-        }
-        success {
             emailext (
                 subject: "[Jenkins] SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
                 body: """
@@ -108,7 +99,8 @@ pipeline {
                 mimeType: 'text/html'
             )
         }
-        failure {
+        failure{
+            echo "Build #${env.BUILD_NUMBER} FAILED."
             emailext (
                 subject: "[Jenkins] FAILED: ${JOB_NAME} #${BUILD_NUMBER}",
                 body: """
@@ -123,7 +115,8 @@ pipeline {
                 mimeType: 'text/html'
             )
         }
-        always {
+        always{
+            // remove stale images from the Jenkins agent so disk doesn't fill up
             sh 'docker image prune -f --filter "until=72h" || true'
         }
     }
