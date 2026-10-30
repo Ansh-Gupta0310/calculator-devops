@@ -92,5 +92,39 @@ pipeline {
             // remove stale images from the Jenkins agent so disk doesn't fill up
             sh 'docker image prune -f --filter "until=72h" || true'
         }
+        success {
+            emailext (
+                subject: "[Jenkins] SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: """
+                    <h2 style="color:#2E8B57">Build succeeded</h2>
+                    <ul>
+                        <li><b>Job:</b> ${JOB_NAME}</li>
+                        <li><b>Build:</b> #${BUILD_NUMBER}</li>
+                        <li><b>Image:</b> ${FULL_IMAGE}</li>
+                        <li><b>URL:</b> <a href="${BUILD_URL}">${BUILD_URL}</a></li>
+                    </ul>
+                """,
+                to: 'you@example.com',
+                mimeType: 'text/html'
+            )
+        }
+        failure {
+            emailext (
+                subject: "[Jenkins] FAILED: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: """
+                    <h2 style="color:#B23A48">Build failed</h2>
+                    <ul>
+                        <li><b>Job:</b> ${JOB_NAME}</li>
+                        <li><b>Build:</b> #${BUILD_NUMBER}</li>
+                        <li><b>Console:</b> <a href="${BUILD_URL}console">${BUILD_URL}console</a></li>
+                    </ul>
+                """,
+                to: 'you@example.com',
+                mimeType: 'text/html'
+            )
+        }
+        always {
+            sh 'docker image prune -f --filter "until=72h" || true'
+        }
     }
 }
