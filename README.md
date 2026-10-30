@@ -42,3 +42,4 @@ Example
 | `curl
 localhost:8080/actuator/health`
 |
+
