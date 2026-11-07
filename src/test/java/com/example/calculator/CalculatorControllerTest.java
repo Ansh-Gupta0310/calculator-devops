@@ -101,4 +101,15 @@ public class CalculatorControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+
+    @Test
+    @DisplayName("GET /api/v1/power returns 200 + correct product and JSON")
+    void powerEndpoint() throws Exception {
+        mockMvc.perform(get("/api/v1/power").param("a", "4").param("b", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.operation").value("power"))
+                .andExpect(jsonPath("$.a").value(4))
+                .andExpect(jsonPath("$.b").value(2))
+                .andExpect(jsonPath("$.result", closeTo(16, 1e-9)));
+    }
 }
