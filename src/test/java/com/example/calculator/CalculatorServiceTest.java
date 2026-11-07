@@ -77,4 +77,10 @@ public class CalculatorServiceTest {
         DivideByZeroException ex = assertThrows(DivideByZeroException.class, () -> service.divide(10, 0));
         assertEquals("Cannot divide by zero", ex.getMessage());
     }
+
+    @Test
+    @DisplayName("power - basic")
+    void powerBasic(){
+        assertEquals(25, service.power(5, 2), 1e-9);
+    }
 }
